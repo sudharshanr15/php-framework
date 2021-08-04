@@ -1,0 +1,15 @@
+{
+    "name": "sudharshan/phpframework",
+    "authors": [
+        {
+            "name": "sudharshan",
+            "email": "sudharshanrms2004@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    }
+}

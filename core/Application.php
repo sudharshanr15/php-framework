@@ -7,11 +7,14 @@ class Application{
     public Request $request;
     public View $view;
 
+    public static $app;
+
     public static $ROOT_DIR;
 
     public function __construct($rootDir)
     {
         self::$ROOT_DIR = $rootDir;
+        self::$app = $this;
         $this->view = new View();
         $this->request = new Request();
         $this->router = new Router($this->request);

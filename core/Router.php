@@ -42,7 +42,7 @@ class Router{
         if(is_array($callback)){
             $class = new $callback[0]();
             $callback[0] = $class;
-            return call_user_func($callback);
+            return call_user_func($callback, $this->request);
         }
 
         // if $callback is a function, call them using a pre-defined function

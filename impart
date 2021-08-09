@@ -1,0 +1,86 @@
+<?php
+
+$arguments = $argv;
+
+function help($info = ""){
+  echo (isset($info) && ($info != "")) ? "$info" : "";
+  echo "This is a command line PHP script used to create valid core classes.\n\r\n\r";
+  echo "Usage: \n\r";
+  echo "\t -h or --help \t to display this help section.\r\n";
+  echo "\t -c <filename> or --controller <filename> \t to create a controller class according to the filename\r\n";
+}
+
+function fileNameValidation($fileName){
+  $pattern = preg_match("/^[A-Z]/", $fileName);
+  if($pattern === 1){
+    return true;
+  }else{
+    return "<filename> should start with a uppercase character only.";
+  }
+  // echo preg_match("/^[A-Z][^\d]/", $fileName);
+}
+
+function createFile($fileName){
+  echo "Creating file $fileName " . date("H:i:s a") . "....\r\n";
+  $fileDir = "controllers";
+  if(is_dir($fileDir)){
+    if(file_exists("./$fileDir/$fileName.php")){
+      return "$fileName already exist!\n\rAborting file creation.";
+    }else{
+      $file = fopen("./controllers/$fileName.php", "w");
+      $code = "<?php
+      
+namespace app\\controllers;
+
+use app\\core\\Controller;
+
+class $fileName extends Controller{
+  
+}";
+      if(fwrite($file, $code)){
+        return "Created file $fileName " . date("H:i:s a") . "....\r\n";
+      }else{
+        return "Failed to create a new file!.";
+      }
+    }
+  }else{
+    return "\r\nControllers directory does not exist\r\nAborting file creation";
+  }
+}
+
+if($argc <= 1){
+  help();
+  exit;
+}
+
+if($arguments[1] === "--help" || $arguments[1] === "-h"){
+  help();
+  exit;
+}else if($arguments[1] === "--controller" || $arguments[1] === "-c"){
+  if(!isset($arguments[2])){
+    help("<filename> field is required.\n\r\n\r");
+    exit;
+  }else{
+    $fileName = $arguments[2];
+    $pos = strpos($fileName, ".");
+    if($pos){
+      $fileName = substr($fileName, 0, $pos);
+      $validateFileName = fileNameValidation($fileName);
+      if($validateFileName === true){
+        echo createFile($fileName);
+      }else{
+        echo $validateFileName;
+      }
+    }else{
+      $validateFileName = fileNameValidation($fileName);
+      if($validateFileName === true){
+        echo createFile($fileName);
+      }else{
+        echo $validateFileName;
+      }
+    }
+  }
+}else{
+  help();
+  exit;
+}

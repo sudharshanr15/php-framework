@@ -6,6 +6,7 @@ class Application{
     public Router $router;
     public Request $request;
     public View $view;
+    public Database $db;
 
     public static $app;
 
@@ -15,6 +16,7 @@ class Application{
     {
         self::$ROOT_DIR = $rootDir;
         self::$app = $this;
+        $this->db = new Database();
         $this->view = new View();
         $this->request = new Request();
         $this->router = new Router($this->request);

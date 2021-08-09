@@ -2,9 +2,10 @@
 
 namespace app\controllers;
 
+use app\core\Controller;
 
-class HomeController{
+class HomeController extends Controller{
     public function home(){
-        return "This is a home page";
+        return $this->renderView("home.views", ['name'=>"something", "text"=>"This is a paragraph text."]);
     }
 }

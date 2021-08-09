@@ -5,9 +5,14 @@ namespace app\core;
 class Application{
     public Router $router;
     public Request $request;
+    public View $view;
 
-    public function __construct()
+    public static $ROOT_DIR;
+
+    public function __construct($rootDir)
     {
+        self::$ROOT_DIR = $rootDir;
+        $this->view = new View();
         $this->request = new Request();
         $this->router = new Router($this->request);
     }
